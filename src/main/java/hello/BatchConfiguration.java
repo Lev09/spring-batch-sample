@@ -89,12 +89,14 @@ public class BatchConfiguration {
 
     @Bean
     public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<Person> reader2,
-            ItemWriter<Person> writer, ItemProcessor<Person, Person> processor) {
+            ItemWriter<Person> writer, ItemProcessor<Person, Person> processor, CustomItemWriterListener listener, CustomStepListener customStepListener) {
         return stepBuilderFactory.get("step1")
                 .<Person, Person> chunk(10)
                 .reader(reader2)
                 .processor(processor)
                 .writer(writer)
+                .listener(listener)
+                .listener(customStepListener)
                 .build();
     }
     
@@ -113,13 +115,14 @@ public class BatchConfiguration {
     
     @Bean
     public Step step3(StepBuilderFactory stepBuilderFactory, ItemReader<Person> reader,
-            ItemWriter<Person> writer, ItemProcessor<Person, Person> processor, CustomItemWriterListener listener) {
+            ItemWriter<Person> writer, ItemProcessor<Person, Person> processor, CustomItemWriterListener listener, CustomStepListener customStepListener) {
         return stepBuilderFactory.get("step3")
                 .<Person, Person> chunk(10)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
                 .listener(listener)
+                .listener(customStepListener)
                 .build();
     }
     // end::jobstep[]
